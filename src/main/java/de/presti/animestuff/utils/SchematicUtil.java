@@ -16,7 +16,6 @@ import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.session.PasteBuilder;
 import de.presti.animestuff.AnimeStuff;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -25,8 +24,8 @@ import java.io.IOException;
 
 public class SchematicUtil {
 
-    public static void loadSchematic(String path, Player player, int rotation) {
-        File schematic = new File(path);
+    public static void loadSchematic(String path, Player player) {
+        File schematic = new File("plugins/AnimeStuff/", path);
 
         if (!schematic.exists() || !schematic.isFile()) {
             AnimeStuff.getInstance().getLogger().warning("Schematic file not found: " + path);
@@ -34,8 +33,7 @@ public class SchematicUtil {
         }
 
         if (Bukkit.getPluginManager().getPlugin("WorldEdit") instanceof WorldEditPlugin worldEditPlugin) {
-            try (EditSession editSession = worldEditPlugin.createEditSession(player)) {
-                Clipboard clipboard;
+            try (EditSession editSession = worldEditPlugin.getWorldEdit().newEditSession(BukkitAdapter.adapt(player.getWorld()))) {                Clipboard clipboard;
 
                 ClipboardFormat format = ClipboardFormats.findByFile(schematic);
 
