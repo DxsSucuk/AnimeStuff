@@ -1,0 +1,10 @@
+name: AnimeStuff
+version: '${project.version}'
+main: de.presti.animestuff.AnimeStuff
+api-version: 1.19
+load: STARTUP
+depend: [ ProtocolLib ]
+softdepend: [ LibsDisguises ]
+authors: [ Presti, Enton ]
+description: A Plugin with advanced combat systems replicated from real Anime!
+website: hentaihaven.lol
