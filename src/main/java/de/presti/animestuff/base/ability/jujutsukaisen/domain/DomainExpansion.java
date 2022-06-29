@@ -26,7 +26,7 @@ public class DomainExpansion {
     public final String title;
     public final String schemPath;
     public final Title ingameTitle;
-    private boolean loopsAround;
+    private final boolean loopsAround;
 
     public DomainExpansion(Player caster, Set<Player> targets, DomainPreset domainPreset) {
 
