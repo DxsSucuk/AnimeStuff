@@ -10,21 +10,30 @@ import java.util.List;
 
 public class PlayerUtil {
 
-    public static void occupyPlayer(@Nonnull Player player) {
-        player.setMetadata("AS_OCCUPIED", new FixedMetadataValue(AnimeStuff.getInstance(), true));
+    public static void occupyPlayer(@Nonnull Player player, @Nonnull Player occupiedBy) {
+        player.setMetadata("AS_OCCUPIED", new FixedMetadataValue(AnimeStuff.getInstance(), occupiedBy));
     }
 
     public static void freePlayer(@Nonnull Player player) {
         player.removeMetadata("AS_OCCUPIED", AnimeStuff.getInstance());
     }
 
-    public static boolean isOccupied(@Nonnull Player player) {
-        if (!player.hasMetadata("AS_OCCUPIED")) {
-            return false;
+    public static Player getOccupiedBy(@Nonnull Player player) {
+        if (!isOccupied(player)) {
+            return null;
         }
-        List<MetadataValue> metaDataList = player.getMetadata("AS_OCCUPIED");
 
-        return metaDataList.size() == 1 && metaDataList.get(0).asBoolean();
+        List<MetadataValue> metadata = player.getMetadata("AS_OCCUPIED");
+
+        if (metadata.isEmpty()) {
+            return null;
+        }
+
+        return (Player) metadata.get(0).value();
+    }
+
+    public static boolean isOccupied(@Nonnull Player player) {
+        return player.hasMetadata("AS_OCCUPIED");
     }
 
 }

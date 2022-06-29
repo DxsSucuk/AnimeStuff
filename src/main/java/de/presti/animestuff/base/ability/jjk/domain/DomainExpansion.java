@@ -30,7 +30,7 @@ public class DomainExpansion {
         this.caster = caster;
         this.targets = targets;
         this.title = domainPreset.getClearName();
-        this.schemPath = domainPreset.toString().toLowerCase(Locale.ROOT) + ".schem";
+        this.schemPath = domainPreset.toString().toLowerCase(Locale.ROOT) + ".schematic";
         this.loopsAround = domainPreset.loopsAround();
 
         this.ingameTitle = Title.title(
@@ -46,6 +46,8 @@ public class DomainExpansion {
                 )
 
         );
+
+        targets.removeIf(PlayerUtil::isOccupied);
     }
 
     public void start() {
@@ -70,7 +72,7 @@ public class DomainExpansion {
         Bukkit.getPluginManager().callEvent(new DomainCreationEvent(caster, caster.getLocation(), this));
 
         SchematicUtil.pasteSchematic(clipboard, caster, caster.getLocation());
-        PlayerUtil.occupyPlayer(caster);
+        PlayerUtil.occupyPlayer(caster, caster);
 
         // Hiding all players except caster and targets
         for (Player allNonTargets: Bukkit.getOnlinePlayers()) {
@@ -87,7 +89,7 @@ public class DomainExpansion {
 
         for (Player all : targets) {
             SchematicUtil.pasteSchematic(clipboard, all, caster.getLocation());
-            PlayerUtil.occupyPlayer(all);
+            PlayerUtil.occupyPlayer(all, caster);
         }
 
         // TODO:: add spherical Schematic with radius of 10 blocks.

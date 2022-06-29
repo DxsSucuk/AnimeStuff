@@ -40,17 +40,11 @@ public class TestCMD implements CommandExecutor {
 
         DomainExpansion domainExpansion = new DomainExpansion(p, targets, domainPreset);
 
-        /*
-          TODO:: lieber nicht in eine Implementations klasse eine REGISTRY haben, statt dessen eine eigenen PlayerImpl haben welche diese Information speichert,
-           vorteil davon wäre das wir die daten in der User Meta data speichern können und diese info selbst nach einem reload immernoch vorhanden ist.
-        */
-
-        /* if(DomainExpansion.REGISTRY.stream().anyMatch(dex -> dex.isOccupyingPlayer(p) || dex.isOccupyingPlayer(t))) {
-            p.sendMessage("§cDu oder dein Ziel ist bereits in einer Domain.");
-            return true;
-        }*/
-
-        domainExpansion.start();
+        if (PlayerUtil.isOccupied(p)) {
+            p.sendMessage("§cDu kannst nur eine Domain auf einen Spieler auf einmal expandieren.");
+        } else {
+            domainExpansion.start();
+        }
         return true;
     }
 }
