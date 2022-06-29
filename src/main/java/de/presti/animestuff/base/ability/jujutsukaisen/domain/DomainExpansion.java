@@ -56,7 +56,7 @@ public class DomainExpansion {
 
         if(loopsAround)
         {
-            // TODO: Player Movement Event einrichten, damit Spieler in der Domain loopen wenn sie rumlaufen.
+            // TODO: Player Movement Event einrichten, damit Spieler in der Domain loopen wenn sie rumlaufen. <- Statt einen external Event zu benutzen was nach einen boolean sucht, einfach ein Event erstellt was nach einen Meta Tag sucht.
         }
 
         // TODO: Vielleicht Buffs?
