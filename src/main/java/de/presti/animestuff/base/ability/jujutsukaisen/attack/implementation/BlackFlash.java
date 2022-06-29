@@ -34,6 +34,9 @@ public class BlackFlash extends CursedAttack {
                 target.damage(Objects.requireNonNull(target.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue() / 4, player);
                 target.setVelocity(target.getVelocity().multiply(2));
             }
+        } else {
+            // TODO:: add something since the player failed to execute the attack. (originale you would need to use the curse energy within 0.000001 seconds of a physical hit
+            //  but since we can't really detect that we just add a random luck based check. ergo: a chance of 1/10000 of hitting.)
         }
     }
 }
