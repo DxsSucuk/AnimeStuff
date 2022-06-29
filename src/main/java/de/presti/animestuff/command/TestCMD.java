@@ -51,6 +51,7 @@ public class TestCMD implements CommandExecutor {
             return true;
         }*/
 
+        domainExpansion.start();
         return true;
     }
 }
