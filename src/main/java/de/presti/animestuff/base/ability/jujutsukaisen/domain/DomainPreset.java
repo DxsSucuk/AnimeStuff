@@ -1,4 +1,4 @@
-package de.presti.animestuff.jujutsukaisen;
+package de.presti.animestuff.base.ability.jujutsukaisen.domain;
 
 public enum DomainPreset {
 

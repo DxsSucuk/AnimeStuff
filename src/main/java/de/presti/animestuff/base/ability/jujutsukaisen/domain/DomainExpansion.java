@@ -1,12 +1,16 @@
-package de.presti.animestuff.jujutsukaisen;
+package de.presti.animestuff.base.ability.jujutsukaisen.domain;
 
 import com.cryptomorin.xseries.XPotion;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import de.presti.animestuff.AnimeStuff;
+import de.presti.animestuff.base.events.jujutsukaisen.domain.DomainCreationEvent;
 import de.presti.animestuff.utils.SchematicUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.title.Title;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
@@ -16,21 +20,14 @@ import java.util.Locale;
 import java.util.Set;
 
 public class DomainExpansion {
-
-    public static List<DomainExpansion> REGISTRY;
-
     public final Player caster;
     public final Set<Player> targets;
     public final String title;
     public final String schemPath;
     public final Title ingameTitle;
-
-    private Clipboard schemClipboard;
     private boolean loopsAround;
 
     public DomainExpansion(Player caster, Set<Player> targets, DomainPreset domainPreset) {
-        if(REGISTRY == null)
-            REGISTRY = new ArrayList<>();
 
         this.caster = caster;
         this.targets = targets;
@@ -51,19 +48,16 @@ public class DomainExpansion {
                 )
 
         );
-
-        REGISTRY.add(this);
     }
 
     public void start() {
         prepare();
         phaseBegin();
-        SchematicUtil.pasteSchematic(schemClipboard, caster, caster.getLocation());     // Location temporär, später maybe im Himmel oder so.
-        // TODO: Wenn Location nicht beim Caster ist, noch teleportieren.
 
         if(loopsAround)
+        {
             // TODO: Player Movement Event einrichten, damit Spieler in der Domain loopen wenn sie rumlaufen.
-        {}
+        }
 
         // TODO: Vielleicht Buffs?
     }
@@ -75,16 +69,43 @@ public class DomainExpansion {
             return;
         }
 
-        schemClipboard = clipboard;
+        Bukkit.getPluginManager().callEvent(new DomainCreationEvent(caster, caster.getLocation(), this));
+
+        SchematicUtil.pasteSchematic(clipboard, caster, caster.getLocation());
+
+        // Hiding all players except caster and targets
+        for (Player allNonTargets: Bukkit.getOnlinePlayers()) {
+            if (targets.contains(allNonTargets) || allNonTargets == caster) {
+                continue;
+            }
+
+            caster.hidePlayer(AnimeStuff.getInstance(), allNonTargets);
+        }
+
+        for (Player all : targets) {
+            // Hiding all players except caster and targets
+            for (Player allNonTargets: Bukkit.getOnlinePlayers()) {
+                if (targets.contains(allNonTargets) || allNonTargets == caster) {
+                    continue;
+                }
+
+                all.hidePlayer(AnimeStuff.getInstance(), allNonTargets);
+            }
+
+            SchematicUtil.pasteSchematic(clipboard, all, caster.getLocation());
+        }
+
+        // TODO:: add spherical Schematic with radius of 10 blocks. And NPCs mimicking the players.
     }
     private void phaseBegin() {
-        List<String> darkness = List.of("DARKNESS");
 
+        PotionEffect potionEffect = XPotion.DARKNESS.buildPotionEffect(20 * 5, 100);
+
+        if (potionEffect != null) caster.addPotionEffect(potionEffect);
         caster.showTitle(ingameTitle);
-        XPotion.addEffects(caster, darkness);
         targets.forEach(t -> {
             t.showTitle(ingameTitle);
-            XPotion.addEffects(t, darkness);
+            if (potionEffect != null) t.addPotionEffect(potionEffect);
         });
     }
 

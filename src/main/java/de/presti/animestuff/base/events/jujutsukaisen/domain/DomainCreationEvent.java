@@ -1,6 +1,6 @@
 package de.presti.animestuff.base.events.jujutsukaisen.domain;
 
-import de.presti.animestuff.base.ability.jujutsukaisen.Domain;
+import de.presti.animestuff.base.ability.jujutsukaisen.domain.DomainExpansion;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -11,9 +11,9 @@ public class DomainCreationEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
     private final Player creator;
     private final Location domainLocation;
-    private final Domain domain;
+    private final DomainExpansion domain;
 
-    public DomainCreationEvent(Player creator, Location domainLocation, Domain domain) {
+    public DomainCreationEvent(Player creator, Location domainLocation, DomainExpansion domain) {
         this.creator = creator;
         this.domainLocation = domainLocation;
         this.domain = domain;
@@ -27,7 +27,7 @@ public class DomainCreationEvent extends Event {
         return domainLocation;
     }
 
-    public Domain getDomain() {
+    public DomainExpansion getDomain() {
         return domain;
     }
 

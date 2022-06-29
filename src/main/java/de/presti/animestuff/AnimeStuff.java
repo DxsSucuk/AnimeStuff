@@ -1,6 +1,6 @@
 package de.presti.animestuff;
 
-import de.presti.animestuff.cmd.TestCMD;
+import de.presti.animestuff.command.TestCMD;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class AnimeStuff extends JavaPlugin {
