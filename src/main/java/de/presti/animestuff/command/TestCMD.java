@@ -3,6 +3,7 @@ package de.presti.animestuff.command;
 import de.presti.animestuff.AnimeStuff;
 import de.presti.animestuff.base.ability.jujutsukaisen.domain.DomainExpansion;
 import de.presti.animestuff.base.ability.jujutsukaisen.domain.DomainPreset;
+import de.presti.animestuff.utils.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,18 +19,9 @@ public class TestCMD implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         if(!(commandSender instanceof Player p)) {
-            AnimeStuff.getInstance().getLogger().warning("Please execute as player entity. /");
+            AnimeStuff.getInstance().getLogger().warning("Please execute as player entity.");
             return true;
         }
-
-        if(args.length != 2) return false;
-
-        Player t = Bukkit.getPlayer(args[0]);
-        if(t == null) {
-            p.sendMessage("§c" + args[0] + " ist entweder nicht online oder du kannst nicht schreiben. Idiot.");
-            return true;
-        }
-        //if(p.getUniqueId().equals(t.getUniqueId()))
 
         DomainPreset domainPreset;
         try {
@@ -39,7 +31,15 @@ public class TestCMD implements CommandExecutor {
             return true;
         }
 
-        DomainExpansion domainExpansion = new DomainExpansion(p, Set.of(t), domainPreset);
+        Set<Player> targets = p.getNearbyEntities(5, 5, 5)
+                .stream()
+                .filter(entity -> entity instanceof Player player &&
+                        player != p &&
+                        !PlayerUtil.isOccupied(player))
+                .map(entity -> (Player) entity)
+                .collect(java.util.stream.Collectors.toSet());
+
+        DomainExpansion domainExpansion = new DomainExpansion(p, targets, domainPreset);
 
         /*
           TODO:: lieber nicht in eine Implementations klasse eine REGISTRY haben, statt dessen eine eigenen PlayerImpl haben welche diese Information speichert,
