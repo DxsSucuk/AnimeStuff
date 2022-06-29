@@ -1,0 +1,15 @@
+
+
+jujutsukaisen:
+  domainexpansion:
+    # In Blocks
+    domainmaxradius: 25
+
+    # BELOW CURRENTLY UNUSED
+
+    titlecolor: 0xFFCEC2,
+
+    # In Milliseconds
+    titlefadein:  300,
+    titleduration:  3000,
+    titlefadeout: 200

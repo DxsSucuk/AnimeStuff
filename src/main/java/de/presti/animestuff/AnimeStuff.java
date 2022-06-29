@@ -1,5 +1,6 @@
 package de.presti.animestuff;
 
+import de.presti.animestuff.cmd.TestCMD;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class AnimeStuff extends JavaPlugin {
@@ -9,12 +10,27 @@ public final class AnimeStuff extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        instance = new AnimeStuff();
+        instance = this;
+
+        startUp();
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    private void startUp() {
+        saveDefaultConfig();
+        reloadConfig();
+
+        //sendPluginMessage();
+        //registerListeners();
+        registerCommands();
+    }
+
+    private void registerCommands() {
+        instance.getCommand("domainexpansion").setExecutor(new TestCMD());
     }
 
     public static AnimeStuff getInstance() {

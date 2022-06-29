@@ -8,3 +8,9 @@ softdepend: [ LibsDisguises ]
 authors: [ Presti, Enton ]
 description: A Plugin with advanced combat systems replicated from real Anime!
 website: hentaihaven.lol
+
+commands:
+  domainexpansion:
+    description: 'TEMP. For testing domain expansions'
+    aliases: ['dex']
+    usage: '/dex <Player> [Domain]'
