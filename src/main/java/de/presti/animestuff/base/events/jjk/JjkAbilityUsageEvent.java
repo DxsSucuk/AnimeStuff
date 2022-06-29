@@ -1,6 +1,5 @@
-package de.presti.animestuff.base.events.jujutsukaisen;
+package de.presti.animestuff.base.events.jjk;
 
-import de.presti.animestuff.base.ability.jujutsukaisen.domain.DomainExpansion;
 import de.presti.animestuff.base.events.base.AbilityUsageEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -8,17 +7,17 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-public class JujutsukaisenAbilityUsageEvent extends AbilityUsageEvent {
+public class JjkAbilityUsageEvent extends AbilityUsageEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
     private float cursedEnergy = 0f;
     private boolean cancelled;
 
-    public JujutsukaisenAbilityUsageEvent(@Nonnull Player player) {
+    public JjkAbilityUsageEvent(@Nonnull Player player) {
         super(player);
     }
 
-    public JujutsukaisenAbilityUsageEvent(@Nonnull Player player, float cursedEnergy) {
+    public JjkAbilityUsageEvent(@Nonnull Player player, float cursedEnergy) {
         super(player);
         this.cursedEnergy = cursedEnergy;
     }

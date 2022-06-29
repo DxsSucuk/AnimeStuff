@@ -1,8 +1,8 @@
-package de.presti.animestuff.base.ability.jujutsukaisen.attack.implementation;
+package de.presti.animestuff.base.ability.jjk.attack.implementation;
 
 import com.cryptomorin.xseries.XPotion;
-import de.presti.animestuff.base.ability.jujutsukaisen.attack.AttackStyle;
-import de.presti.animestuff.base.ability.jujutsukaisen.attack.CursedAttack;
+import de.presti.animestuff.base.ability.jjk.attack.AttackStyle;
+import de.presti.animestuff.base.ability.jjk.attack.CursedAttack;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

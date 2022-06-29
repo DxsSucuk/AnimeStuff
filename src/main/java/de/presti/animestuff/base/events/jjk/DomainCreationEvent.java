@@ -1,6 +1,6 @@
-package de.presti.animestuff.base.events.jujutsukaisen;
+package de.presti.animestuff.base.events.jjk;
 
-import de.presti.animestuff.base.ability.jujutsukaisen.domain.DomainExpansion;
+import de.presti.animestuff.base.ability.jjk.domain.DomainExpansion;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

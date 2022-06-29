@@ -1,11 +1,11 @@
-package de.presti.animestuff.base.events.jujutsukaisen;
+package de.presti.animestuff.base.events.jjk;
 
-import de.presti.animestuff.base.ability.jujutsukaisen.domain.DomainExpansion;
+import de.presti.animestuff.base.ability.jjk.domain.DomainExpansion;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class DomainAbilityUsageEvent extends JujutsukaisenAbilityUsageEvent {
+public class DomainAbilityUsageEvent extends JjkAbilityUsageEvent {
     private static final HandlerList HANDLERS = new HandlerList();
     private final DomainExpansion domain;
 

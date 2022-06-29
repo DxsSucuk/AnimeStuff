@@ -1,7 +1,7 @@
 package de.presti.animestuff.events;
 
 import de.presti.animestuff.AnimeStuff;
-import de.presti.animestuff.base.events.jujutsukaisen.DomainCreationEvent;
+import de.presti.animestuff.base.events.jjk.DomainCreationEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 

@@ -1,9 +1,9 @@
-package de.presti.animestuff.base.ability.jujutsukaisen.domain;
+package de.presti.animestuff.base.ability.jjk.domain;
 
 import com.cryptomorin.xseries.XPotion;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import de.presti.animestuff.AnimeStuff;
-import de.presti.animestuff.base.events.jujutsukaisen.DomainCreationEvent;
+import de.presti.animestuff.base.events.jjk.DomainCreationEvent;
 import de.presti.animestuff.utils.PlayerUtil;
 import de.presti.animestuff.utils.SchematicUtil;
 import net.kyori.adventure.text.Component;

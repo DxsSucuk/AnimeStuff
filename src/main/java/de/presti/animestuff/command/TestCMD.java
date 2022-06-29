@@ -1,10 +1,9 @@
 package de.presti.animestuff.command;
 
 import de.presti.animestuff.AnimeStuff;
-import de.presti.animestuff.base.ability.jujutsukaisen.domain.DomainExpansion;
-import de.presti.animestuff.base.ability.jujutsukaisen.domain.DomainPreset;
+import de.presti.animestuff.base.ability.jjk.domain.DomainExpansion;
+import de.presti.animestuff.base.ability.jjk.domain.DomainPreset;
 import de.presti.animestuff.utils.PlayerUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

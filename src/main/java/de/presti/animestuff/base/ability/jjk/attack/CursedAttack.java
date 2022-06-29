@@ -1,4 +1,4 @@
-package de.presti.animestuff.base.ability.jujutsukaisen.attack;
+package de.presti.animestuff.base.ability.jjk.attack;
 
 import de.presti.animestuff.AnimeStuff;
 import org.bukkit.Location;
