@@ -1,9 +1,9 @@
-package de.presti.animestuff.base.ability.jujutsukaisen.domain;
+package de.presti.animestuff.base.ability.jjk.domain;
 
 import com.cryptomorin.xseries.XPotion;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import de.presti.animestuff.AnimeStuff;
-import de.presti.animestuff.base.events.jujutsukaisen.domain.DomainCreationEvent;
+import de.presti.animestuff.base.events.jjk.DomainCreationEvent;
 import de.presti.animestuff.utils.PlayerUtil;
 import de.presti.animestuff.utils.SchematicUtil;
 import net.kyori.adventure.text.Component;
@@ -12,28 +12,25 @@ import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
-import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
 public class DomainExpansion {
-    public final Player caster;
-    public final Set<Player> targets;
-    public final String title;
-    public final String schemPath;
-    public final Title ingameTitle;
-    private final boolean loopsAround;
+    private final Player caster;
+    private final Set<Player> targets;
+    private final String title;
+    private final String schemPath;
+    private final Title ingameTitle;
+    private boolean loopsAround;
 
     public DomainExpansion(Player caster, Set<Player> targets, DomainPreset domainPreset) {
 
         this.caster = caster;
         this.targets = targets;
         this.title = domainPreset.getClearName();
-        this.schemPath = domainPreset.toString().toLowerCase(Locale.ROOT) + ".schem";
+        this.schemPath = domainPreset.toString().toLowerCase(Locale.ROOT).replaceAll(" ", "_") + ".schematic";
         this.loopsAround = domainPreset.loopsAround();
 
         this.ingameTitle = Title.title(
@@ -49,6 +46,8 @@ public class DomainExpansion {
                 )
 
         );
+
+        targets.removeIf(PlayerUtil::isOccupied);
     }
 
     public void start() {
@@ -70,10 +69,12 @@ public class DomainExpansion {
             return;
         }
 
-        Bukkit.getPluginManager().callEvent(new DomainCreationEvent(caster, caster.getLocation(), this));
+        DomainCreationEvent domainCreationEvent = new DomainCreationEvent(caster, caster.getLocation(), this);
+        Bukkit.getPluginManager().callEvent(domainCreationEvent);
 
-        SchematicUtil.pasteSchematic(clipboard, caster, caster.getLocation());
-        PlayerUtil.occupyPlayer(caster);
+        if (!domainCreationEvent.isCancelled())
+            SchematicUtil.pasteSchematic(clipboard, caster, caster.getLocation());
+        PlayerUtil.occupyPlayer(caster, caster);
 
         // Hiding all players except caster and targets
         for (Player allNonTargets: Bukkit.getOnlinePlayers()) {
@@ -89,12 +90,14 @@ public class DomainExpansion {
         }
 
         for (Player all : targets) {
-            SchematicUtil.pasteSchematic(clipboard, all, caster.getLocation());
-            PlayerUtil.occupyPlayer(all);
+            if (!domainCreationEvent.isCancelled())
+                SchematicUtil.pasteSchematic(clipboard, all, caster.getLocation());
+            PlayerUtil.occupyPlayer(all, caster);
         }
 
         // TODO:: add spherical Schematic with radius of 10 blocks.
-        SchematicUtil.pasteSchematic(SchematicUtil.loadSchematic("domain_expansion_sphere.schem"), caster, caster.getLocation());
+        if (!domainCreationEvent.isCancelled())
+            SchematicUtil.pasteSchematic(SchematicUtil.loadSchematic("domain_expansion_sphere.schematic"), caster, caster.getLocation());
     }
     private void phaseBegin() {
 
@@ -116,6 +119,29 @@ public class DomainExpansion {
             SchematicUtil.revertLastSchematic(all);
             PlayerUtil.freePlayer(all);
         }
+    }
 
+    public Player getCaster() {
+        return caster;
+    }
+
+    public Set<Player> getTargets() {
+        return targets;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getSchemPath() {
+        return schemPath;
+    }
+
+    public Title getIngameTitle() {
+        return ingameTitle;
+    }
+
+    public boolean isLoopsAround() {
+        return loopsAround;
     }
 }
