@@ -1,17 +1,19 @@
-package de.presti.animestuff.base.events.jujutsukaisen.domain;
+package de.presti.animestuff.base.events.jujutsukaisen;
 
 import de.presti.animestuff.base.ability.jujutsukaisen.domain.DomainExpansion;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class DomainCreationEvent extends Event {
+public class DomainCreationEvent extends Event implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
     private final Player creator;
     private final Location domainLocation;
     private final DomainExpansion domain;
+    private boolean cancelled;
 
     public DomainCreationEvent(Player creator, Location domainLocation, DomainExpansion domain) {
         this.creator = creator;
@@ -34,5 +36,15 @@ public class DomainCreationEvent extends Event {
     @Override
     public @NotNull HandlerList getHandlers() {
         return HANDLERS;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    @Override
+    public void setCancelled(boolean cancel) {
+        cancelled = cancel;
     }
 }

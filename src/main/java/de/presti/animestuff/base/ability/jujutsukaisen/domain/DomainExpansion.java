@@ -3,7 +3,7 @@ package de.presti.animestuff.base.ability.jujutsukaisen.domain;
 import com.cryptomorin.xseries.XPotion;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import de.presti.animestuff.AnimeStuff;
-import de.presti.animestuff.base.events.jujutsukaisen.domain.DomainCreationEvent;
+import de.presti.animestuff.base.events.jujutsukaisen.DomainCreationEvent;
 import de.presti.animestuff.utils.PlayerUtil;
 import de.presti.animestuff.utils.SchematicUtil;
 import net.kyori.adventure.text.Component;
@@ -12,20 +12,17 @@ import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
-import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
 public class DomainExpansion {
-    public final Player caster;
-    public final Set<Player> targets;
-    public final String title;
-    public final String schemPath;
-    public final Title ingameTitle;
+    private final Player caster;
+    private final Set<Player> targets;
+    private final String title;
+    private final String schemPath;
+    private final Title ingameTitle;
     private boolean loopsAround;
 
     public DomainExpansion(Player caster, Set<Player> targets, DomainPreset domainPreset) {
@@ -116,6 +113,29 @@ public class DomainExpansion {
             SchematicUtil.revertLastSchematic(all);
             PlayerUtil.freePlayer(all);
         }
+    }
 
+    public Player getCaster() {
+        return caster;
+    }
+
+    public Set<Player> getTargets() {
+        return targets;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getSchemPath() {
+        return schemPath;
+    }
+
+    public Title getIngameTitle() {
+        return ingameTitle;
+    }
+
+    public boolean isLoopsAround() {
+        return loopsAround;
     }
 }
