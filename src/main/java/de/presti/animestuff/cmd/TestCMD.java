@@ -55,7 +55,7 @@ public class TestCMD implements CommandExecutor {
             return true;
         }
 
-
+        domainExpansion.start();
 
         //p.sendMessage("§aViel Spaß mit deiner Domain huso");
 
