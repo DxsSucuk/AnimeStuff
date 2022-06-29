@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XPotion;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import de.presti.animestuff.AnimeStuff;
 import de.presti.animestuff.base.events.jujutsukaisen.domain.DomainCreationEvent;
+import de.presti.animestuff.utils.PlayerUtil;
 import de.presti.animestuff.utils.SchematicUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -72,6 +73,7 @@ public class DomainExpansion {
         Bukkit.getPluginManager().callEvent(new DomainCreationEvent(caster, caster.getLocation(), this));
 
         SchematicUtil.pasteSchematic(clipboard, caster, caster.getLocation());
+        PlayerUtil.occupyPlayer(caster);
 
         // Hiding all players except caster and targets
         for (Player allNonTargets: Bukkit.getOnlinePlayers()) {
@@ -88,9 +90,11 @@ public class DomainExpansion {
 
         for (Player all : targets) {
             SchematicUtil.pasteSchematic(clipboard, all, caster.getLocation());
+            PlayerUtil.occupyPlayer(all);
         }
 
-        // TODO:: add spherical Schematic with radius of 10 blocks. And NPCs mimicking the players.
+        // TODO:: add spherical Schematic with radius of 10 blocks.
+        SchematicUtil.pasteSchematic(SchematicUtil.loadSchematic("domain_expansion_sphere.schem"), caster, caster.getLocation());
     }
     private void phaseBegin() {
 
@@ -104,9 +108,14 @@ public class DomainExpansion {
         });
     }
 
-    public boolean isOccupyingPlayer(@NotNull Player player) {
-        if(caster.getUniqueId().equals(player.getUniqueId())) return true;
-        return targets.stream().anyMatch(t -> t.getUniqueId().equals(player.getUniqueId()));
-    }
+    public void end() {
+        SchematicUtil.revertLastSchematic(caster);
+        PlayerUtil.freePlayer(caster);
 
+        for (Player all : targets) {
+            SchematicUtil.revertLastSchematic(all);
+            PlayerUtil.freePlayer(all);
+        }
+
+    }
 }
