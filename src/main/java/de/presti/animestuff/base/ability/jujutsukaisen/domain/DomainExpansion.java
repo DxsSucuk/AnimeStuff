@@ -80,18 +80,13 @@ public class DomainExpansion {
             }
 
             caster.hidePlayer(AnimeStuff.getInstance(), allNonTargets);
+
+            for (Player all : targets) {
+                all.hidePlayer(AnimeStuff.getInstance(), allNonTargets);
+            }
         }
 
         for (Player all : targets) {
-            // Hiding all players except caster and targets
-            for (Player allNonTargets: Bukkit.getOnlinePlayers()) {
-                if (targets.contains(allNonTargets) || allNonTargets == caster) {
-                    continue;
-                }
-
-                all.hidePlayer(AnimeStuff.getInstance(), allNonTargets);
-            }
-
             SchematicUtil.pasteSchematic(clipboard, all, caster.getLocation());
         }
 
