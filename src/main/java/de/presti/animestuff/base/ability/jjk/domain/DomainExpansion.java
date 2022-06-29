@@ -30,7 +30,7 @@ public class DomainExpansion {
         this.caster = caster;
         this.targets = targets;
         this.title = domainPreset.getClearName();
-        this.schemPath = domainPreset.toString().toLowerCase(Locale.ROOT) + ".schematic";
+        this.schemPath = domainPreset.toString().toLowerCase(Locale.ROOT).replaceAll(" ", "_") + ".schematic";
         this.loopsAround = domainPreset.loopsAround();
 
         this.ingameTitle = Title.title(
@@ -69,9 +69,11 @@ public class DomainExpansion {
             return;
         }
 
-        Bukkit.getPluginManager().callEvent(new DomainCreationEvent(caster, caster.getLocation(), this));
+        DomainCreationEvent domainCreationEvent = new DomainCreationEvent(caster, caster.getLocation(), this);
+        Bukkit.getPluginManager().callEvent(domainCreationEvent);
 
-        SchematicUtil.pasteSchematic(clipboard, caster, caster.getLocation());
+        if (!domainCreationEvent.isCancelled())
+            SchematicUtil.pasteSchematic(clipboard, caster, caster.getLocation());
         PlayerUtil.occupyPlayer(caster, caster);
 
         // Hiding all players except caster and targets
@@ -88,12 +90,14 @@ public class DomainExpansion {
         }
 
         for (Player all : targets) {
-            SchematicUtil.pasteSchematic(clipboard, all, caster.getLocation());
+            if (!domainCreationEvent.isCancelled())
+                SchematicUtil.pasteSchematic(clipboard, all, caster.getLocation());
             PlayerUtil.occupyPlayer(all, caster);
         }
 
         // TODO:: add spherical Schematic with radius of 10 blocks.
-        SchematicUtil.pasteSchematic(SchematicUtil.loadSchematic("domain_expansion_sphere.schem"), caster, caster.getLocation());
+        if (!domainCreationEvent.isCancelled())
+            SchematicUtil.pasteSchematic(SchematicUtil.loadSchematic("domain_expansion_sphere.schematic"), caster, caster.getLocation());
     }
     private void phaseBegin() {
 
